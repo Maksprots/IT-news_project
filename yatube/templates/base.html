@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include 'includes/header.html'%}
+
+</head>
+<body>
+<main>
+    {% block content %}
+        Контент не подвезли :(
+      {% endblock %}
+</main>
+</body>
+<footer>
+    {% include 'includes/footer.html' %}
+</footer>
+
+
+</html>
