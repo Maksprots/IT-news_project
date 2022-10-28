@@ -79,7 +79,7 @@ def post_create(request):
             post.group = form.cleaned_data['group']
             post.save()
             return redirect('posts:profile', post.author.username)
-
+        return render(request, template, context)
     else:
         return render(request, template, context)
 
