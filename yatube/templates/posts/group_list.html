@@ -10,16 +10,16 @@
     <title> Записи сообщества {{ group.title  }}</title>
     <h1>Группа: {{ group.title }} </h1>
     <p>Описание: {{ group.description }}</p>
-
-  {% for post in posts %}
+          {% for post in page_obj %}
 
       {% include 'includes/post.html' %}
       {% if not forloop.last %}
              <hr>
       {% endif %}
     {% endfor %}
-
+  {% include 'includes/paginator.html' %}
   </div>
+
       {% endblock %}
     </main>
   </body>

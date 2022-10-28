@@ -24,7 +24,7 @@
                   {% endfor %}
               {% endif %}
 
-              <form method="post" action="{% url 'users:signup' %}">
+              <form method="post" action="{% url 'posts:create' %}">
               {% csrf_token %}
 
               {# Выводим поля в цикле, по отдельности #}
