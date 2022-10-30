@@ -3,13 +3,13 @@ from django.shortcuts import render, \
 from .models import Post, Group, User
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
-from .utils import paginator
+from .utils import make_paginator
 
 
 def index(request):
     template = 'posts/index.html'
     posts = Post.objects.all()
-    page_obj = paginator(posts, request)
+    page_obj = make_paginator(posts, request)
     context = {
         'page_obj': page_obj,
     }
@@ -21,7 +21,7 @@ def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     posts = group.posts.all()
 
-    page_obj = paginator(posts, request)
+    page_obj = make_paginator(posts, request)
     context = {
         'page_obj': page_obj,
         'group': group,
@@ -32,7 +32,7 @@ def group_posts(request, slug):
 def profile(request, username):
     author = User.objects.get(username=username)
     posts = author.posts.all()
-    page_obj = paginator(posts, request)
+    page_obj = make_paginator(posts, request)
     context = {
         'page_obj': page_obj,
         'author': author,
@@ -87,4 +87,3 @@ def post_edit(request, post_id):
 
     }
     return render(request, 'posts/create_post.html', context)
-
