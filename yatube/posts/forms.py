@@ -10,8 +10,4 @@ class PostForm(forms.ModelForm):
             'group': 'Группа',
             'text': 'Текст поста'
         }
-        help_texts = {
-            'group': 'Группа в которой будет'
-                     'опубликован пост',
-            'text': 'пост не может быть пустым'
-        }
+
