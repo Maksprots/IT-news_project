@@ -1,4 +1,4 @@
-from django.test import  TestCase
+from django.test import TestCase
 from django.contrib.auth import get_user_model
 from ..models import Group, Post
 
@@ -19,8 +19,7 @@ class PostModelTest(TestCase):
         cls.post = Post.objects.create(
             author=cls.user,
             text='Тестовый пост для теста метода '
-                 'str',
-            )
+                 'str')
 
     def test_models_have_correct_object_names(self):
         str_name_post = 'Тестовый пост д'
@@ -29,9 +28,9 @@ class PostModelTest(TestCase):
         self.assertEqual(self.group.__str__(), str_name_group)
 
     def test_fields_have_help_text_verbose_name(self):
-     pass
+        pass
 
-     '''   text_help_text = 'Введите текст поста'
-        group_verbose_name = 'Группа'
-        group_help_text = 'Группа, к которой будет относиться пост'
-        self.assertEqual(self._meta.get_field())'''
+    '''   text_help_text = 'Введите текст поста'
+    group_verbose_name = 'Группа'
+    group_help_text = 'Группа, к которой будет относиться пост'
+    self.assertEqual(self._meta.get_field())'''
