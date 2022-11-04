@@ -58,7 +58,8 @@ def post_create(request):
         'form': form,
     }
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST or None,
+                        files=request.FILES or None)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -74,7 +75,9 @@ def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if request.user.id != post.author.id:
         return redirect('posts:index')
-    form = PostForm(request.POST or None, instance=post)
+    form = PostForm(request.POST or None,
+                    files=request.FILES or None,
+                    instance=post)
     if form.is_valid():
         post.author = request.user
         post.save()
