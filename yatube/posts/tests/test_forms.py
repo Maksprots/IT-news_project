@@ -1,7 +1,4 @@
 import shutil
-
-from django.test import Client, TestCase
-from django.urls import reverse
 from ..models import Post, Group, User
 from ..forms import PostForm
 from django.test import Client, TestCase, override_settings
@@ -96,5 +93,4 @@ class PostCreateEditTest(TestCase):
             data=form_data)
         post_new = Post.objects.get(pk=self.post.pk)
         self.assertNotEqual(post_old_text, post_new.text)
-        self.assertEqual(post_new.image,'posts/small1.gif' )
-
+        self.assertEqual(post_new.image, 'posts/small1.gif')

@@ -26,4 +26,3 @@ class PostModelTest(TestCase):
         str_name_group = 'Тест группа'
         self.assertEqual(self.post.__str__(), str_name_post)
         self.assertEqual(self.group.__str__(), str_name_group)
-

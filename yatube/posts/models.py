@@ -35,6 +35,7 @@ class Post(models.Model):
         upload_to='posts/',
         blank=True
     )
+
     class Meta:
         ordering = ['-pub_date']
 
