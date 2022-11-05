@@ -3,36 +3,41 @@ from django.test import TestCase, Client
 from ..models import Post, Group
 
 User = get_user_model()
+TEST_SLUG = 'test_sl'
+POST_ID = 1
+TEST_USERNAME = 'nonauth'
 
 
 class URLTests(TestCase):
     templates_url_names = {
         '/': 'posts/index.html',
-        '/group/test_sl/': 'posts/group_list.html',
-        '/profile/nonauth/': 'posts/profile.html',
-        '/posts/1/': 'posts/post_detail.html',
+        f'/group/{TEST_SLUG}/': 'posts/group_list.html',
+        f'/profile/{TEST_USERNAME}/': 'posts/profile.html',
+        f'/posts/{POST_ID}/': 'posts/post_detail.html',
+        '/about/author/': 'about/author.html',
+        '/about/tech/': 'about/tech.html'
     }
 
     private_templates_url_names = {
-        '/posts/1/edit/': 'posts/create_post.html',
+        f'/posts/{POST_ID}/edit/': 'posts/create_post.html',
         '/create/': 'posts/create_post.html',
     }
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = User.objects.create_user(username='nonauth')
+        cls.user = User.objects.create_user(username=TEST_USERNAME)
         cls.post = Post.objects.create(text='тестовый текст поста',
                                        author=cls.user)
         Group.objects.create(title='тест группа',
-                             slug='test_sl',
+                             slug=TEST_SLUG,
                              description='тест описание')
 
     def setUp(self):
         self.guest_client = Client()
         self.auth_client = Client()
         self.auth_client2 = Client()
-        user2 = User.objects.create_user(username='noauth')
+        user2 = User.objects.create_user(username='us_2')
         self.auth_client.force_login(self.user)
         self.auth_client2.force_login(user2)
 
@@ -54,7 +59,7 @@ class URLTests(TestCase):
             with self.subTest(address=address):
                 response = self.auth_client.get(address)
                 self.page_test(response, template)
-        response = self.auth_client2.get('/posts/1/edit/')
+        response = self.auth_client2.get(f'/posts/{POST_ID}/edit/')
         self.assertRedirects(response, '/')
         response = self.guest_client.get('/create/')
         self.assertRedirects(response, '/auth/login/?next=/create/')

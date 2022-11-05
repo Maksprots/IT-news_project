@@ -3,7 +3,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from ..models import Post, Group
 from django import forms
-
+from django.core.files.uploadedfile import SimpleUploadedFile
 User = get_user_model()
 
 
@@ -12,6 +12,19 @@ class PostPagesTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        small_gif = (
+             b'\x47\x49\x46\x38\x39\x61\x02\x00'
+             b'\x01\x00\x80\x00\x00\x00\x00\x00'
+             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+             b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+             b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+             b'\x0A\x00\x3B'
+        )
+        cls.uploaded = SimpleUploadedFile(
+            name='small.gif',
+            content=small_gif,
+            content_type='image/gif'
+        )
         cls.user = User.objects.create_user(username='test_page_us')
         cls.group = Group.objects.create(title='тест группа',
                                          slug='test_sl',
@@ -20,7 +33,9 @@ class PostPagesTest(TestCase):
                                           slug='test_sl2',
                                           description='тест описание')
         cls.post = Post.objects.create(text='тестовый текст поста',
-                                       author=cls.user, group=cls.group)
+                                       author=cls.user,
+                                       group=cls.group,
+                                       image=cls.uploaded)
         for i in range(12):
             Post.objects.create(text='тестовый текст поста',
                                 author=cls.user, group=cls.group)
@@ -46,6 +61,8 @@ class PostPagesTest(TestCase):
                     kwargs={'post_id': self.post.id}): (
                 'posts/create_post.html'),
             reverse('posts:post_create'): 'posts/create_post.html',
+            reverse('about:author'): 'about/author.html',
+            reverse('about:tech'): 'about/tech.html'
         }
 
         for reverse_name, template in templates_pages_names.items():
@@ -111,6 +128,7 @@ class PostPagesTest(TestCase):
         form_field = {
             'text': forms.fields.CharField,
             'group': forms.models.ModelChoiceField,
+            'image': forms.ImageField
         }
         for value, expected in form_field.items():
             with self.subTest(value=value):
@@ -124,6 +142,7 @@ class PostPagesTest(TestCase):
         form_field = {
             'text': forms.fields.CharField,
             'group': forms.models.ModelChoiceField,
+            'image': forms.ImageField
         }
         for value, expected in form_field.items():
             with self.subTest(value=value):
@@ -140,3 +159,10 @@ class PostPagesTest(TestCase):
         response = self.auth_client.get(reverse('posts:group_list',
                                                 kwargs=kw))
         self.assertNotIn(self.post, response.context['page_obj'])
+
+# картинка не передается в контекст в явном виде
+# передается объект класса Post а картинка-- атрибут
+# этого объекта, не совсем понял зачем тестировать, что
+# джанго передает объект целиком и не теряет картинку
+    def test_index_image(self):
+        pass

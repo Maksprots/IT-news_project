@@ -27,10 +27,3 @@ class PostModelTest(TestCase):
         self.assertEqual(self.post.__str__(), str_name_post)
         self.assertEqual(self.group.__str__(), str_name_group)
 
-    def test_fields_have_help_text_verbose_name(self):
-        pass
-
-    '''   text_help_text = 'Введите текст поста'
-    group_verbose_name = 'Группа'
-    group_help_text = 'Группа, к которой будет относиться пост'
-    self.assertEqual(self._meta.get_field())'''
