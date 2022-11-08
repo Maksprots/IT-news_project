@@ -4,6 +4,7 @@ from django.urls import reverse
 from ..models import Post, Group
 from django import forms
 from django.core.files.uploadedfile import SimpleUploadedFile
+
 User = get_user_model()
 
 
@@ -13,12 +14,12 @@ class PostPagesTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         small_gif = (
-             b'\x47\x49\x46\x38\x39\x61\x02\x00'
-             b'\x01\x00\x80\x00\x00\x00\x00\x00'
-             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
-             b'\x00\x00\x00\x2C\x00\x00\x00\x00'
-             b'\x02\x00\x01\x00\x00\x02\x02\x0C'
-             b'\x0A\x00\x3B'
+            b'\x47\x49\x46\x38\x39\x61\x02\x00'
+            b'\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+            b'\x0A\x00\x3B'
         )
         cls.uploaded = SimpleUploadedFile(
             name='small.gif',
@@ -160,9 +161,15 @@ class PostPagesTest(TestCase):
                                                 kwargs=kw))
         self.assertNotIn(self.post, response.context['page_obj'])
 
-# картинка не передается в контекст в явном виде
-# передается объект класса Post а картинка-- атрибут
-# этого объекта, не совсем понял зачем тестировать, что
-# джанго передает объект целиком и не теряет картинку
+    # картинка не передается в контекст в явном виде
+    # передается объект класса Post а картинка-- атрибут
+    # этого объекта, не совсем понял зачем тестировать, что
+    # джанго передает объект целиком и не теряет картинку
     def test_index_image(self):
         pass
+
+    def test_guest_comment(self):
+        address = reverse('posts:add_comment', kwargs={'post_id': 1})
+        response = self.guest_client.post(address)
+        self.assertRedirects(response, '/auth/login/?next=/posts/1/comment/')
+
