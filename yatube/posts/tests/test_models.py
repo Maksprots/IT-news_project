@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from ..models import Group, Post
+from ..models import Post, Group
 
 User = get_user_model()
 
@@ -11,18 +11,19 @@ class PostModelTest(TestCase):
         super().setUpClass()
         cls.user = User.objects.create_user(username='auth')
         cls.group = Group.objects.create(
-            title='Тест группа',
-            slug='слаг',
-            description='сообщение тест',
+            title='Заголовок тестовой группы',
+            slug='Тестовый слаг',
+            description='Тестовое описание',
         )
-
         cls.post = Post.objects.create(
             author=cls.user,
-            text='Тестовый пост для теста метода '
-                 'str')
+            text='тестовый пост',
+        )
 
     def test_models_have_correct_object_names(self):
-        str_name_post = 'Тестовый пост д'
-        str_name_group = 'Тест группа'
-        self.assertEqual(self.post.__str__(), str_name_post)
-        self.assertEqual(self.group.__str__(), str_name_group)
+        post = PostModelTest.post
+        group = PostModelTest.group
+        expected_title = 'Заголовок тестовой группы'
+        self.assertEqual(expected_title, str(group))
+        expected_text_post = 'тестовый пост'
+        self.assertEqual(expected_text_post, str(post))

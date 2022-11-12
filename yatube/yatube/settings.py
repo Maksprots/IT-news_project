@@ -1,12 +1,13 @@
 import os
+
 # from dotenv import load_dotenv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
+# SECURITY WARNING: keep the secret key used in production secret!
 """load_dotenv()
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -20,14 +21,12 @@ DEBUG = True
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
 # LOGOUT_REDIRECT_URL = 'posts:index'
-
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '[::1]',
     'testserver',
 ]
-
 
 # Application definition
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
@@ -95,21 +94,25 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+                'MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+                'CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+                'NumericPasswordValidator',
     },
 ]
-NUMBER_POSTS = 10
+NUMBER_POSTS_ON_ONE_PAGE = 10
 EMPTY_VALUE_DISPLAY = '-пусто-'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -124,9 +127,18 @@ USE_L10N = True
 
 USE_TZ = True
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'KEY-PREFIX': 'index_page',
+    }
+}
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_URL = '/static/'
 
-NUMBER_OBJ_TO_PAGE = 10
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
