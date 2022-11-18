@@ -1,7 +1,7 @@
 # yatube_project
 
 ### Описание
-Скорее всего, здесь можно будет общаться (надеюсь ахаха)
+Небольшая соцсеть. Тут можно выкладывать посты и общаться
 ### Технологии
 Python 3.7
 Django 2.2.19
@@ -13,7 +13,13 @@ pip install -r requirements.txt
 ``` 
 - В папке с файлом manage.py выполните команду:
 ```
-python3 manage.py runserver
+python manage.py runserver
+```
+- Для создания базы данных выполните команды:
+```
+python manage.py makemigrations
+
+python manage.py migrate
 ```
 ### Автор
 Максим 
