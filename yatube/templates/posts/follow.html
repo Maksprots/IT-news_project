@@ -6,6 +6,7 @@
     <br>
     <h1>Подписки</h1>
     {% include 'includes/switcher.html' %}
+    {% if page_obj %}
     {% for post in page_obj %}
     {% include 'includes/post.html' %}
     {% if post.group %}
@@ -15,6 +16,13 @@
     <hr>
     {% endif %}
     {% endfor %}
+    {% else%}
+    <div class="container">
+    <center>
+        <p class="text-muted" style="font-size: 250%" >Нет подписок</p>
+    </center>
+    </div>
+    {% endif %}
     {% include 'includes/paginator.html' %}
     {% endblock %}
 </div>
