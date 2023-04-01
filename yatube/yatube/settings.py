@@ -1,26 +1,23 @@
 import os
 
-# from dotenv import load_dotenv
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from dotenv import load_dotenv
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-"""load_dotenv()
-env_path = Path('.') / '.env'
+load_dotenv()
+env_path = '.env'
 load_dotenv(dotenv_path=env_path)
-на сервере нет модуля dotenv но я пытался)
-"""
 
-# SECRET_KEY = os.getenv("SECRET_KEY")
-SECRET_KEY = 'bh2oku4je2-a*p=$beyv(!*03x+ioyd2(7k(m)sr&^gyac+qjh'
-# SECURITY WARNING: don't run with debug turned on in production!
+
+
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+
 DEBUG = True
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
-# LOGOUT_REDIRECT_URL = 'posts:index'
+
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
@@ -28,7 +25,6 @@ ALLOWED_HOSTS = [
     'testserver',
 ]
 
-# Application definition
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 
@@ -79,9 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'yatube.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -89,8 +82,6 @@ DATABASES = {
     }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -114,9 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
 NUMBER_POSTS_ON_ONE_PAGE = 10
 EMPTY_VALUE_DISPLAY = '-пусто-'
 
-# Internationalization
-# https://docs.djangoproject.com/en/2.2/topics/i18n/
-
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
@@ -133,8 +121,7 @@ CACHES = {
         'KEY-PREFIX': 'index_page',
     }
 }
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
+
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_URL = '/static/'
 
